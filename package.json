@@ -1,0 +1,28 @@
+{
+  "name": "educheck-ai",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "EduCheck AI — Live AI homework grading for primary schools, by team Mindset-21",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.3",
+    "framer-motion": "^11.18.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.5",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.1.5",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  }
+}

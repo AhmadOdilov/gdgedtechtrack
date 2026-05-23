@@ -1,0 +1,159 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============ EduCheck AI — Design System ============ */
+@theme {
+  --font-display: "Fredoka", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, sans-serif;
+
+  /* Brand — gamified */
+  --color-grape: #7c3aed;
+  --color-grape-dark: #6d28d9;
+  --color-grape-light: #a78bfa;
+  --color-neon: #22c55e;
+  --color-neon-light: #4ade80;
+  --color-tangerine: #fb923c;
+  --color-tangerine-dark: #f97316;
+
+  /* Teacher — professional */
+  --color-ink: #0f172a;
+  --color-corp: #2563eb;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: #f8fafc;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background: #0b1120;
+  color: #e2e8f0;
+}
+
+/* Smooth animated theme transition (applied briefly on toggle) */
+.theme-anim,
+.theme-anim *,
+.theme-anim *::before,
+.theme-anim *::after {
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.3s ease,
+    fill 0.3s ease, stroke 0.3s ease !important;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* Lego / Minecraft style "chunky" hard shadow */
+.brick-shadow {
+  box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.18);
+}
+.brick-shadow-sm {
+  box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.15);
+}
+.brick-press {
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.brick-press:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.18);
+}
+
+/* pixel/blocky studs strip (Lego top) */
+.studs {
+  background-image: radial-gradient(circle at 6px 6px, rgba(255, 255, 255, 0.5) 3px, transparent 4px);
+  background-size: 18px 18px;
+}
+
+/* animated gradient for gamified hero surfaces */
+.aurora {
+  background: linear-gradient(120deg, #7c3aed, #a855f7, #fb923c, #22c55e, #7c3aed);
+  background-size: 300% 300%;
+  animation: aurora 12s ease infinite;
+}
+@keyframes aurora {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* glowing element */
+.glow-ring {
+  box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.5);
+  animation: glow 1.8s infinite;
+}
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.45); }
+  50% { box-shadow: 0 0 0 16px rgba(124, 58, 237, 0); }
+}
+
+/* ============ Keyframe animations ============ */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+.anim-float { animation: float 4s ease-in-out infinite; }
+
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.1); }
+}
+.anim-blink { animation: blink 4s infinite; transform-origin: center; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, #ede9fe 25%, #ddd6fe 37%, #ede9fe 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+.dark .shimmer {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 37%, #1e293b 63%);
+  background-size: 200% 100%;
+}
+
+@keyframes scan {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+.scan-line { animation: scan 1.6s ease-in-out infinite alternate; }
+
+/* floating particles */
+@keyframes particle {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-120px) translateX(var(--drift, 0)) scale(0.4); opacity: 0; }
+}
+.particle { animation: particle var(--dur, 4s) linear infinite; }
+
+@keyframes crystal-burst {
+  0% { transform: translate(0, 0) scale(0.2) rotate(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate(var(--bx), var(--by)) scale(1) rotate(var(--br)); opacity: 0; }
+}
+.crystal-burst { animation: crystal-burst 1.1s ease-out forwards; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #c4b5fd; border-radius: 999px; }
+.dark ::-webkit-scrollbar-thumb { background: #4c1d95; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
