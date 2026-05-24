@@ -6,6 +6,21 @@ A polished, hackathon-ready MVP with a **real, working Live AI grading module** 
 
 ---
 
+## 📑 Table of Contents
+
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Prerequisites](#-prerequisites)
+- [Run it](#-run-it)
+- [Scripts](#-scripts)
+- [Deploy to Vercel](#️-deploy-to-vercel)
+- [Connecting a real AI](#-connecting-a-real-ai)
+- [Environment Variables](#-environment-variables)
+- [Architecture](#-architecture)
+- [License](#-license)
+
+---
+
 ## ✨ Features
 
 **Global**
@@ -40,16 +55,48 @@ A polished, hackathon-ready MVP with a **real, working Live AI grading module** 
 
 ---
 
+## 🧰 Tech Stack
+
+| Layer | Tech |
+|-------|------|
+| Framework | React 18 + TypeScript |
+| Build tool | Vite 6 |
+| Styling | Tailwind CSS v4 (`@tailwindcss/vite`) |
+| Animation | Framer Motion · canvas-confetti |
+| AI providers | OpenAI Vision · Google Gemini Vision (with offline mock fallback) |
+| State | React Context (`AppContext`, `ThemeContext`, `ToastContext`) |
+| i18n | Custom dictionary (`src/i18n.ts`) — UZ / RU / EN |
+| Persistence | Browser `localStorage` (keys, theme, language, progress) |
+| Deploy | Vercel (SPA rewrites via `vercel.json`) |
+
+---
+
+## ✅ Prerequisites
+
+- **Node.js 18+** (built & tested on Node 26)
+- **npm** (ships with Node)
+- *(Optional)* an **OpenAI** or **Gemini** API key for live AI grading — the app works fully without one via the mock engine.
+
+---
+
 ## 🚀 Run it
 
 ```bash
-npm install
-npm run dev          # http://localhost:5173
+npm install          # install dependencies
+npm run dev          # start dev server → http://localhost:5173
 npm run build        # type-check + production build → dist/
-npm run preview      # preview the production build
+npm run preview      # preview the production build locally
 ```
 
-Requires Node 18+ (built & tested on Node 26).
+---
+
+## 📜 Scripts
+
+| Command | What it does |
+|---------|--------------|
+| `npm run dev` | Starts the Vite dev server with HMR on port `5173` (auto-opens browser). |
+| `npm run build` | Runs `tsc --noEmit` (type-check) then builds the optimized production bundle to `dist/`. |
+| `npm run preview` | Serves the built `dist/` locally to preview the production build. |
 
 ## ☁️ Deploy to Vercel
 
@@ -57,14 +104,20 @@ The repo includes `vercel.json` (Vite preset + SPA rewrites). Either:
 - Import the repo in the Vercel dashboard (auto-detected), or
 - `npx vercel` from the project root.
 
-Optional **environment variables** (Project → Settings → Environment Variables) pre-connect live AI without the in-app modal:
+---
 
-```
-VITE_OPENAI_API_KEY=sk-...
-VITE_GEMINI_API_KEY=AIza...
-```
+## 🔑 Environment Variables
 
-See `.env.example`. ⚠️ `VITE_`-prefixed vars ship to the browser — for real production, proxy AI calls through a serverless/edge function instead of exposing keys.
+All variables are **optional** — the app runs without them (mock engine) and keys can also be pasted at runtime via the in-app Settings modal. Copy `.env.example` → `.env.local` to pre-connect live AI:
+
+| Variable | Description |
+|----------|-------------|
+| `VITE_OPENAI_API_KEY` | OpenAI API key (e.g. `sk-...`) for live grading. |
+| `VITE_GEMINI_API_KEY` | Google Gemini API key (e.g. `AIza...`) for live grading. |
+
+On Vercel, set these under **Project → Settings → Environment Variables** to pre-connect live AI without the in-app modal.
+
+> ⚠️ `VITE_`-prefixed vars are **shipped to the browser**. For real production, proxy AI calls through a serverless/edge function instead of exposing keys client-side.
 
 ---
 
@@ -98,5 +151,15 @@ src/
 ├─ i18n.ts       # UZ / RU / EN dictionaries
 └─ types.ts
 ```
+
+**Data flow:** `StudentPortal` (image/text) → `aiService.grade()` → `api/` layer (OpenAI **or** Gemini, with timeout + retry) → on failure, `utils/mockEngine` parses & checks the arithmetic locally → `AIResult` ({ score, errors, feedback, steps, source }) → `AIReview` renders the quest, mistake map & rewards → `AppContext` updates XP / crystals / achievements.
+
+---
+
+## 📄 License
+
+This project was built for a hackathon by **team Mindset-21**. No formal open-source license is attached — contact the team before reuse.
+
+---
 
 Made with 💜 by **Mindset-21**.
